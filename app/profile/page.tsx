@@ -1,11 +1,14 @@
+"use client";
 import AppAvatar from "@/components/AppAvatar";
 import AppCard from "@/components/AppCard";
 import ProfileMenuItem from "@/components/ProfileMenuItem";
 import { CoinsIcon, OutdentIcon, Presentation, User2Icon } from "lucide-react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const page = () => {
+  const router = useRouter();
   return (
     <div className="space-y-6">
       {/* User Avatar + Info */}
@@ -41,7 +44,11 @@ const page = () => {
       <AppCard>
         <ul className="divide-y divide-border">
           <ProfileMenuItem icon={<User2Icon />} label="Profile Setting" />
-          <ProfileMenuItem icon={<CoinsIcon />} label="Contribution Details" />
+          <ProfileMenuItem
+            icon={<CoinsIcon />}
+            label="Contribution Details"
+            onClick={() => router.push("/contributions")}
+          />
           <ProfileMenuItem icon={<Presentation />} label="Reports" />
           <ProfileMenuItem icon={<OutdentIcon />} label="Logout" />
         </ul>
