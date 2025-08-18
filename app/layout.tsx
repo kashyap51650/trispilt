@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Mulish } from "next/font/google";
+import NavigationFooter from "@/components/NavigationFooter";
 
 const mulish = Mulish({
   subsets: ["latin"],
@@ -23,13 +24,12 @@ export default function RootLayout({
     <html lang="en" className={mulish.variable}>
       <body
         className={cn(
-          "min-h-screen font-sans",
-          "bg-background text-foreground"
+          "min-h-screen flex flex-col font-sans",
+          "bg-background text-foreground w-full relative max-w-xl mx-auto"
         )}
       >
-        <div className="max-w-xl mx-auto p-8 xs:p-10 border rounded-md">
-          {children}
-        </div>
+        <div className="flex-grow p-6 xs:p-10 rounded-md">{children}</div>
+        <NavigationFooter />
       </body>
     </html>
   );
