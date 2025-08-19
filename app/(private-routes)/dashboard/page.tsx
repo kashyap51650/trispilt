@@ -3,6 +3,9 @@ import StateCard from "@/components/StateCard";
 import AppAvatar from "@/components/AppAvatar";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
+import { PlusCircleIcon } from "lucide-react";
+import QuickActionCard from "@/components/QuickActionCard";
 
 const DashboardPage = () => {
   const today = new Date().toLocaleDateString("en-IN", {
@@ -15,15 +18,15 @@ const DashboardPage = () => {
   return (
     <main className="space-y-6">
       {/* Header */}
-      <header className="flex items-center gap-4 pt-4">
+      <header className="flex items-center gap-3">
         <Link href="/profile" aria-label="Go to profile" className="shrink-0">
-          <AppAvatar src="/uiface-1.jpg" width={50} height={50} fallback="KP" />
+          <AppAvatar src="/uiface-1.jpg" width={60} height={60} fallback="KP" />
         </Link>
         <div>
-          <h1 className="text-xl font-black leading-tight">
-            <span className="font-normal">Hello</span> Kashyap
+          <h1 className="leading-tight font-normal text-muted-foreground">
+            Welcome Back!
           </h1>
-          <p className="mt-1 text-xs text-muted-foreground">{today}</p>
+          <p className="text-xl font-bold">Kashyap Patel</p>
         </div>
       </header>
 
@@ -53,10 +56,12 @@ const DashboardPage = () => {
         </div>
       </section>
 
+      <MonthlyContribution />
+
+      <QuickActionCard />
+
       {/* Monthly contribution */}
-      <section>
-        <MonthlyContribution />
-      </section>
+      <section></section>
     </main>
   );
 };
