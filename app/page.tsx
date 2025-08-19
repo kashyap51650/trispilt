@@ -1,9 +1,4 @@
-import AppCard from "@/components/AppCard";
-import MonthlyContribution from "@/components/MonthlyContribution";
-import StateCard from "@/components/StateCard";
-import { Card } from "@/components/ui/card";
-import DashboardPage from "./dashboard/page";
-import SplashPage from "./splash/page";
+import SplashPage from "./(public-routes)/splash/page";
 
 export default function Home() {
   return (

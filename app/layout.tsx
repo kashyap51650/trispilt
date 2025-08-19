@@ -24,12 +24,11 @@ export default function RootLayout({
     <html lang="en" className={mulish.variable}>
       <body
         className={cn(
-          "min-h-screen flex flex-col font-sans",
+          "h-screen flex flex-col font-sans",
           "bg-background text-foreground w-full relative max-w-xl mx-auto"
         )}
       >
-        <div className="flex-grow p-4 rounded-md">{children}</div>
-        <NavigationFooter />
+        <div className="flex-grow rounded-md">{children}</div>
       </body>
     </html>
   );

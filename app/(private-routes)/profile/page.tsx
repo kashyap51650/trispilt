@@ -50,7 +50,11 @@ const page = () => {
             onClick={() => router.push("/contributions")}
           />
           <ProfileMenuItem icon={<Presentation />} label="Reports" />
-          <ProfileMenuItem icon={<OutdentIcon />} label="Logout" />
+          <ProfileMenuItem
+            icon={<OutdentIcon />}
+            label="Logout"
+            onClick={() => router.push("/login")}
+          />
         </ul>
       </AppCard>
     </div>
