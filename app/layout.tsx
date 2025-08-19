@@ -28,7 +28,7 @@ export default function RootLayout({
           "bg-background text-foreground w-full relative max-w-xl mx-auto"
         )}
       >
-        <div className="flex-grow p-6 xs:p-10 rounded-md">{children}</div>
+        <div className="flex-grow p-4 rounded-md">{children}</div>
         <NavigationFooter />
       </body>
     </html>
