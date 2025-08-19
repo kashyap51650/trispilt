@@ -18,12 +18,12 @@ const ProfileMenuItem = ({
   return (
     <li
       className={cn(
-        "flex items-center justify-between py-4 cursor-pointer hover:bg-muted/10 px-2 transition",
+        "flex items-center justify-between py-3 cursor-pointer hover:bg-muted/10 transition",
         className
       )}
       onClick={onClick}
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 text-sm">
         {icon}
         <span>{label}</span>
       </div>

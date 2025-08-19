@@ -13,7 +13,7 @@ const AppCard: React.FC<AppCardProps> = ({ children, title, className }) => {
       className={`bg-card text-card-foreground shadow-md shadow-foreground/10 ${className}`}
     >
       {title && (
-        <CardTitle className="text-lg font-bold text-muted px-6">
+        <CardTitle className="text-md font-bold text-muted px-6">
           {title}
         </CardTitle>
       )}

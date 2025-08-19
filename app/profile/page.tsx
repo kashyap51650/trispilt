@@ -10,7 +10,7 @@ import React from "react";
 const page = () => {
   const router = useRouter();
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* User Avatar + Info */}
       <div className="flex flex-col gap-4 items-center justify-center py-6">
         <AppAvatar src="/uiface-1.jpg" width={100} height={100} fallback="CR" />
@@ -25,10 +25,10 @@ const page = () => {
         <div className="flex">
           <Image
             src="/3dicons-wallet.png"
-            width={80}
-            height={80}
+            width={60}
+            height={60}
             alt="Balance Icon"
-            className="mr-4 "
+            className="mr-4"
           />
 
           <div className="flex flex-col justify-center">
@@ -41,7 +41,7 @@ const page = () => {
       </AppCard>
 
       {/* Menu Items */}
-      <AppCard>
+      <AppCard className="px-2">
         <ul className="divide-y divide-border">
           <ProfileMenuItem icon={<User2Icon />} label="Profile Setting" />
           <ProfileMenuItem
