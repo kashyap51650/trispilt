@@ -1,4 +1,5 @@
 import ContributionItem from "@/components/ContributionItem";
+import PageHeader from "@/components/PageHeader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import React from "react";
@@ -29,12 +30,7 @@ const filterByStatus = (items: Contributor[], status?: Status) =>
 const page = () => {
   return (
     <div>
-      <header className="mb-4">
-        <h1 className="text-2xl font-bold">Contributions</h1>
-        <p className="text-muted-foreground">
-          Track this month’s group contributions
-        </p>
-      </header>
+      <PageHeader title="Contributions" />
 
       <Tabs defaultValue="all" className="w-full">
         <TabsList className="grid grid-cols-3 w-full">
