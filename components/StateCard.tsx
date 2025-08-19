@@ -15,7 +15,7 @@ const StateCard: React.FC<StateCardProps> = ({
   return (
     <AppCard className={classname || `bg-primary/20`}>
       <div>
-        <p className="text-2xl font-bold mb-1">{stateNumber}</p>
+        <p className="text-xl font-bold mb-1">{stateNumber}</p>
         <p className="text-sm">{stateDescription}</p>
       </div>
     </AppCard>
