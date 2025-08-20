@@ -1,10 +1,7 @@
-import { CheckCircleIcon, XCircle, XCircleIcon } from "lucide-react";
+import { CheckBadgeIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import AppAvatar from "./AppAvatar";
 import AppCard from "./AppCard";
-import { CheckBadgeIcon } from "@heroicons/react/24/solid";
-import { XMarkIcon } from "@heroicons/react/24/solid";
-import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 
 const MonthlyContribution = () => {
   const contributors = [

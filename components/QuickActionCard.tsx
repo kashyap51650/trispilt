@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
 import { ArrowUpRight, HandCoins, Landmark, PlusCircle } from "lucide-react";
+import Link from "next/link";
+import React from "react";
 
 type Action = {
   label: string;
@@ -66,7 +66,7 @@ const QuickActionCard: React.FC<QuickActionCardProps> = ({
       {/* Mobile: horizontal scroll tiles (icon over two-line text) */}
       <div className="sm:hidden -mx-4 px-4 overflow-x-auto pb-2">
         <div className="flex gap-3">
-          {actions.map(({ label, href, icon: Icon, subtitle }) => (
+          {actions.map(({ label, href, icon: Icon }) => (
             <Link
               key={label}
               href={href}
