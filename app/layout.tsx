@@ -11,8 +11,9 @@ const mulish = Mulish({
 });
 
 export const metadata: Metadata = {
-  title: "Group Finance Management",
+  title: "Trispilt - Group Finance Management",
   description: "Manage your group finances efficiently",
+  manifest: "/web.manifest",
 };
 
 export default function RootLayout({
