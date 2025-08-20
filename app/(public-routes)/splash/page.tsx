@@ -1,17 +1,41 @@
 "use client";
 
+import { getCurrentUser } from "@/actions/auth";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const SplashPage: React.FC = () => {
   const router = useRouter();
+  const [isChecking, setIsChecking] = useState(true);
 
-  // Auto-redirect to dashboard after a short delay
+  // Check authentication status and redirect accordingly
   useEffect(() => {
-    const t = setTimeout(() => router.replace("/dashboard"), 2000);
-    return () => clearTimeout(t);
+    const checkAuthAndRedirect = async () => {
+      try {
+        const user = await getCurrentUser();
+
+        if (user) {
+          // User is authenticated, redirect to dashboard
+          router.replace("/dashboard");
+        } else {
+          // User is not authenticated, redirect to get-started
+          setTimeout(() => {
+            router.replace("/get-started");
+          }, 1500);
+        }
+      } catch (error) {
+        console.error("Error checking auth state:", error);
+        // On error, redirect to get-started
+        setTimeout(() => {
+          router.replace("/get-started");
+        }, 1500);
+      } finally {
+        setIsChecking(false);
+      }
+    };
+
+    checkAuthAndRedirect();
   }, [router]);
 
   return (
@@ -24,22 +48,34 @@ const SplashPage: React.FC = () => {
       </div>
 
       <div className="flex h-screen flex-col items-center justify-center gap-6 py-10 text-center">
-        {/* Progress indicator */}
-        <div className="flex items-center gap-3">
+        {/* App Logo and Branding */}
+        <div className="relative">
           <Image
-            src="/icons/icon-512x512.png"
-            alt="Rupee icon"
-            width={64}
-            height={64}
-            className="drop-shadow-xl"
+            src="/3dicons-rupee.png"
+            alt="App Logo"
+            width={120}
+            height={120}
+            className="drop-shadow-xl animate-pulse"
             priority
           />
         </div>
-        {/* Branding */}
+
+        {/* App Name */}
         <div>
-          <h1 className="text-primary text-2xl font-extrabold tracking-tight ">
-            Trisplit
+          <h1 className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl">
+            TriSpilt
           </h1>
+          <p className="mt-2 text-base text-muted-foreground">
+            Group Finance Management
+          </p>
+        </div>
+
+        {/* Loading indicator */}
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/40 border-t-primary" />
+          <p className="text-sm text-muted-foreground">
+            {isChecking ? "Checking authentication..." : "Redirecting..."}
+          </p>
         </div>
       </div>
     </div>

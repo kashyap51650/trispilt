@@ -1,6 +1,7 @@
 "use client";
 import { register as registerUser } from "@/actions/auth";
 import AvatarUpload from "@/components/AvatarUpload";
+import ErrorComponent from "@/components/ErrorComponent";
 import FormField from "@/components/FormField";
 import PasswordStrengthIndicator from "@/components/PasswordStrengthIndicator";
 import { Button } from "@/components/ui/button";
@@ -91,10 +92,11 @@ const SignupPage: React.FC = () => {
           avatar: avatar,
         };
 
+        console.log("avatar", avatar);
         // Call the register function
-        const result = await registerUser(registrationData);
+        // const result = await registerUser(registrationData);
 
-        console.log("Registration successful:", result);
+        // console.log("Registration successful:", result);
 
         // Handle successful registration
         // Redirect to dashboard or show success message
@@ -123,19 +125,21 @@ const SignupPage: React.FC = () => {
   }, []);
 
   return (
-    <div className=" flex flex-col justify-center h-full">
+    <div className=" flex min-h-screen flex-col justify-center px-4 py-12 sm:px-6 lg:px-8">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-24 left-1/2 -translate-x-1/2 h-72 w-72 rounded-full bg-primary/20 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-56 w-56 rounded-full bg-secondary/20 blur-2xl" />
         <div className="absolute inset-0 bg-gradient-to-br from-background via-card/30 to-transparent" />
       </div>
-      <div className="mb-6 px-4">
-        <h1 className="text-2xl font-extrabold tracking-tight text-primary">
-          Sign up
-        </h1>
-        <p className="text-muted-foreground">Register your account</p>
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="text-center">
+          <h1 className="text-3xl font-extrabold tracking-tight text-primary">
+            Sign up
+          </h1>
+          <p className="mt-2 text-muted-foreground">Register your account</p>
+        </div>
       </div>
-      <div className="w-full items-center justify-center max-w-md rounded-xl border bg-card/80 p-8 shadow-lg">
+      <div className="mt-8 w-full items-center justify-center max-w-md rounded-xl border bg-card/80 p-8 shadow-lg">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Profile photo upload */}
           <AvatarUpload
@@ -212,11 +216,7 @@ const SignupPage: React.FC = () => {
           </FormField>
 
           {/* Root error */}
-          {errors.root && (
-            <div className="rounded-md bg-destructive/10 border border-destructive p-3">
-              <p className="text-sm text-destructive">{errors.root.message}</p>
-            </div>
-          )}
+          {errors.root && <ErrorComponent errorMessage={errors.root.message} />}
 
           {/* Submit */}
           <Button
@@ -235,10 +235,13 @@ const SignupPage: React.FC = () => {
           </Button>
         </form>
       </div>
-      <div>
-        <p className="mt-4 ms-4 text-sm text-muted-foreground">
+      <div className="mt-6 text-center">
+        <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
-          <Link href="/login" className="text-primary hover:underline">
+          <Link
+            href="/login"
+            className="font-medium text-primary hover:underline transition-colors"
+          >
             Log in
           </Link>
         </p>
