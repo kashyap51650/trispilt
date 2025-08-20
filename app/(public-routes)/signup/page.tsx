@@ -1,22 +1,19 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { Input } from "@/components/ui/input";
-import AppAvatar from "@/components/AppAvatar";
-import Image from "next/image";
-import { PencilIcon } from "lucide-react";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { PencilIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useRef, useState } from "react";
 
 const SignupPage: React.FC = () => {
   const [avatar, setAvatar] = useState<string>("/uiface-1.jpg");
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setAvatarFile(file);
       const reader = new FileReader();
       reader.onload = (ev) => {
         if (ev.target?.result) setAvatar(ev.target.result as string);

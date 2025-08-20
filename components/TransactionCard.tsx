@@ -1,6 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Pencil, Trash2 } from "lucide-react";
-import React from "react";
 
 interface TransactionCardProps {
   title: string;
@@ -18,14 +16,11 @@ interface TransactionCardProps {
 
 const TransactionCard = ({
   title,
-  description,
   type,
   amount,
   tag,
   date,
   by,
-  onEdit,
-  onDelete,
   className,
 }: TransactionCardProps) => {
   const isIncome = type === "income";

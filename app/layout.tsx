@@ -1,8 +1,7 @@
-import type { Metadata } from "next";
-import "./globals.css";
 import { cn } from "@/lib/utils";
+import type { Metadata } from "next";
 import { Mulish } from "next/font/google";
-import NavigationFooter from "@/components/NavigationFooter";
+import "./globals.css";
 
 const mulish = Mulish({
   subsets: ["latin"],

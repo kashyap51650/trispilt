@@ -1,20 +1,10 @@
-import MonthlyContribution from "@/components/MonthlyContribution";
-import StateCard from "@/components/StateCard";
 import AppAvatar from "@/components/AppAvatar";
-import Link from "next/link";
-import React from "react";
-import Image from "next/image";
-import { PlusCircleIcon } from "lucide-react";
+import MonthlyContribution from "@/components/MonthlyContribution";
 import QuickActionCard from "@/components/QuickActionCard";
+import StateCard from "@/components/StateCard";
+import Link from "next/link";
 
 const DashboardPage = () => {
-  const today = new Date().toLocaleDateString("en-IN", {
-    weekday: "short",
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
-
   return (
     <main className="space-y-6">
       {/* Header */}
