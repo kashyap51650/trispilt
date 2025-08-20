@@ -17,15 +17,8 @@ const LoginPage = () => {
       </div>
 
       <div className="py-6 px-4">
-        <Image
-          src={"/3dicons-rupee.png"}
-          height={100}
-          width={100}
-          alt="login-icon"
-          className="mb-4"
-        />
         <h1 className="text-2xl font-extrabold tracking-tight text-primary">
-          Welcome Back
+          Welcome
         </h1>
         <p className="text-muted-foreground">Login to your account</p>
       </div>
