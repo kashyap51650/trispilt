@@ -15,15 +15,15 @@ const AvatarUpload: React.FC<{
           height={80}
           width={80}
           alt="Profile photo"
-          className="rounded-full h-20 w-20 object-cover border-2 border-gray-200"
+          className="rounded-full h-20 w-20 border-2 border-gray-200"
         />
         <Button
           type="button"
-          className="absolute bottom-0 right-0 flex rounded-full bg-primary p-2"
+          className="absolute bottom-0 right-0 flex rounded-full bg-primary p-2 h-7 w-7"
           onClick={() => fileInputRef.current?.click()}
           aria-label="Change profile photo"
         >
-          <PencilIcon className="w-3 h-3" />
+          <PencilIcon className="w-5 h-5" />
         </Button>
       </div>
       <input

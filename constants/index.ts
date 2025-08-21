@@ -24,3 +24,5 @@ export const ROUTES = {
   signup: "/signup",
   verifyEmail: "/verify-email",
 } as const;
+
+export const NO_PROFILE_IMAGE = "/images/no-profile.jpg";
