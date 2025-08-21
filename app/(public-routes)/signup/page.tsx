@@ -1,5 +1,8 @@
 "use client";
-import { register as registerUser } from "@/actions/auth";
+import {
+  register as registerUser,
+  sendVerificationEmail,
+} from "@/actions/auth";
 import AvatarUpload from "@/components/AvatarUpload";
 import ErrorComponent from "@/components/ErrorComponent";
 import FormField from "@/components/FormField";
@@ -97,9 +100,13 @@ const SignupPage: React.FC = () => {
 
         console.log("Registration successful:", result);
 
+        await sendVerificationEmail();
+
         // Handle successful registration
-        // Redirect to dashboard or show success message
-        router.push(ROUTES.dashboard);
+        // Redirect to email verification page
+        router.push(
+          `${ROUTES.verifyEmail}?email=${encodeURIComponent(data.email)}`
+        );
       } catch (error) {
         console.error("Registration error:", error);
         const errorMessage =

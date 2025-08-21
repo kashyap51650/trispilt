@@ -1,6 +1,6 @@
 "use client";
 
-import { login } from "@/actions/auth";
+import { login, sendVerificationEmail } from "@/actions/auth";
 import ErrorComponent from "@/components/ErrorComponent";
 import FormField from "@/components/FormField";
 import { Button } from "@/components/ui/button";
@@ -37,7 +37,18 @@ const LoginPage: React.FC = () => {
 
       try {
         const result = await login(data);
-        console.log("Login successful:", result);
+
+        // Redirect to verify email if login failed due to unverified email
+        if (result.success === false && result.emailVerified === false) {
+          const status = await sendVerificationEmail();
+
+          if (status.success) {
+            router.push(
+              "/verify-email?email=" + encodeURIComponent(data.email)
+            );
+            return;
+          }
+        }
 
         // Redirect to dashboard on successful login
         router.push("/dashboard");

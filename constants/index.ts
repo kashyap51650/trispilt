@@ -22,4 +22,5 @@ export const ROUTES = {
   dashboard: "/dashboard",
   login: "/login",
   signup: "/signup",
+  verifyEmail: "/verify-email",
 } as const;

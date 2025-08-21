@@ -1,11 +1,15 @@
 import { auth, db } from "@/lib/firebase";
-import { UserInfo } from "@/types";
+import { LoginResponse, UserInfo } from "@/types";
 import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  sendEmailVerification,
+  applyActionCode,
+  checkActionCode,
+  reload,
   User,
 } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
@@ -68,6 +72,7 @@ export const register = async (data: RegisterData) => {
       },
       success: true,
       message: "User registered successfully",
+      emailVerificationSent: false,
     };
   } catch (error: any) {
     console.error("Registration error:", error);
@@ -89,13 +94,23 @@ export const register = async (data: RegisterData) => {
   }
 };
 
-export const login = async (data: LoginData) => {
+export const login = async (data: LoginData): Promise<LoginResponse> => {
   try {
     const { email, password } = data;
 
     // Sign in with Firebase Auth
     const result = await signInWithEmailAndPassword(auth, email, password);
     const user = result.user;
+
+    const status = await checkEmailVerificationStatus();
+
+    if (status.isVerified === false) {
+      return {
+        success: false,
+        message: "Email not verified. Please check your inbox.",
+        emailVerified: false,
+      };
+    }
 
     // Get user data from Firestore
     const userDocRef = doc(db, "users", user.uid);
@@ -113,6 +128,7 @@ export const login = async (data: LoginData) => {
       user: userData,
       success: true,
       message: "Login successful",
+      emailVerified: user.emailVerified,
     };
   } catch (error: any) {
     console.error("Login error:", error);
@@ -186,4 +202,97 @@ export const getCurrentUser = async (): Promise<UserInfo | null> => {
       }
     });
   });
+};
+
+// Email verification functions
+export const sendVerificationEmail = async () => {
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      throw new Error("No user logged in");
+    }
+
+    const actionCodeSettings = {
+      url: "http://localhost:3000/verify-email?verified=true",
+      handleCodeInApp: true,
+    };
+
+    await sendEmailVerification(user, actionCodeSettings);
+
+    return {
+      success: true,
+      message: "Verification email sent successfully",
+    };
+  } catch (error: any) {
+    console.error("Error sending verification email:", error);
+
+    let errorMessage = "Failed to send verification email";
+
+    if (error.code === "auth/too-many-requests") {
+      errorMessage =
+        "Too many requests. Please wait before requesting another verification email";
+    } else if (error.code === "auth/user-disabled") {
+      errorMessage = "This account has been disabled";
+    }
+
+    throw new Error(errorMessage);
+  }
+};
+
+export const verifyEmailWithCode = async (actionCode: string) => {
+  try {
+    // Check if the action code is valid
+    const info = await checkActionCode(auth, actionCode);
+
+    // Apply the action code to verify the email
+    await applyActionCode(auth, actionCode);
+
+    // Reload the user to get updated email verification status
+    if (auth.currentUser) {
+      await reload(auth.currentUser);
+    }
+
+    return {
+      success: true,
+      message: "Email verified successfully",
+      email: info.data.email,
+    };
+  } catch (error: any) {
+    console.error("Error verifying email:", error);
+
+    let errorMessage = "Failed to verify email";
+
+    if (error.code === "auth/invalid-action-code") {
+      errorMessage = "Invalid or expired verification code";
+    } else if (error.code === "auth/expired-action-code") {
+      errorMessage = "Verification code has expired";
+    } else if (error.code === "auth/user-disabled") {
+      errorMessage = "This account has been disabled";
+    }
+
+    throw new Error(errorMessage);
+  }
+};
+
+export const checkEmailVerificationStatus = async (): Promise<{
+  isVerified: boolean;
+  email: string | null;
+}> => {
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      throw new Error("No user logged in");
+    }
+
+    // Reload user to get fresh email verification status
+    await reload(user);
+
+    return {
+      isVerified: user.emailVerified,
+      email: user.email,
+    };
+  } catch (error: any) {
+    console.error("Error checking email verification status:", error);
+    throw new Error("Failed to check verification status");
+  }
 };
