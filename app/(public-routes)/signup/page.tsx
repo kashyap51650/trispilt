@@ -6,7 +6,7 @@ import FormField from "@/components/FormField";
 import PasswordStrengthIndicator from "@/components/PasswordStrengthIndicator";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { MAX_FILE_SIZE } from "@/constants";
+import { MAX_FILE_SIZE, ROUTES } from "@/constants";
 import { usePasswordStrength } from "@/hooks/usePasswordStrength";
 import { SignupFormData, signupSchema } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -89,18 +89,17 @@ const SignupPage: React.FC = () => {
           email: data.email,
           password: data.password,
           phone: data.phone,
-          avatar: avatar,
+          avatar: fileInputRef.current?.files?.[0] as Blob,
         };
 
-        console.log("avatar", avatar);
         // Call the register function
-        // const result = await registerUser(registrationData);
+        const result = await registerUser(registrationData);
 
-        // console.log("Registration successful:", result);
+        console.log("Registration successful:", result);
 
         // Handle successful registration
         // Redirect to dashboard or show success message
-        // router.push("/dashboard");
+        router.push(ROUTES.dashboard);
       } catch (error) {
         console.error("Registration error:", error);
         const errorMessage =
@@ -239,7 +238,7 @@ const SignupPage: React.FC = () => {
         <p className="text-sm text-muted-foreground">
           Already have an account?{" "}
           <Link
-            href="/login"
+            href={ROUTES.login}
             className="font-medium text-primary hover:underline transition-colors"
           >
             Log in

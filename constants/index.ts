@@ -1,3 +1,5 @@
+import { login } from "@/actions/auth";
+
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 export const STRENGTH_COLORS = [
@@ -15,3 +17,9 @@ export const STRENGTH_LABELS = [
   "Good",
   "Strong",
 ] as const;
+
+export const ROUTES = {
+  dashboard: "/dashboard",
+  login: "/login",
+  signup: "/signup",
+} as const;

@@ -9,14 +9,14 @@ import {
   User,
 } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
-import { createUser } from "./user";
+import { createUser, uploadAvatar } from "./user";
 
 export interface RegisterData {
   name: string;
   email: string;
   password: string;
   phone: string;
-  avatar?: string;
+  avatar?: Blob;
 }
 
 export interface LoginData {
@@ -26,16 +26,24 @@ export interface LoginData {
 
 export const register = async (data: RegisterData) => {
   try {
-    const { name, email, password, phone, avatar = "/uiface-1.jpg" } = data;
+    const { name, email, password, phone, avatar } = data;
 
     // Create user with Firebase Auth
     const res = await createUserWithEmailAndPassword(auth, email, password);
     const user = res.user;
 
+    // upload avatar if provided
+    let avatarUrl = "";
+    if (avatar) {
+      avatarUrl = await uploadAvatar(
+        new Blob([avatar], { type: "image/jpeg" })
+      );
+    }
+
     // Update the user's profile with their name
     await updateProfile(user, {
       displayName: name,
-      photoURL: avatar,
+      photoURL: avatarUrl,
     });
 
     // Prepare user data for Firestore
@@ -43,7 +51,7 @@ export const register = async (data: RegisterData) => {
       id: user.uid,
       name: name,
       email: email.toLowerCase(),
-      avatar: avatar,
+      avatar: avatarUrl ?? "",
       mobile: phone,
     };
 
@@ -55,7 +63,7 @@ export const register = async (data: RegisterData) => {
         id: user.uid,
         name: name,
         email: user.email,
-        avatar: avatar,
+        avatar: avatarUrl,
         mobile: phone,
       },
       success: true,
