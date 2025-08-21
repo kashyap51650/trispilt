@@ -15,7 +15,7 @@ export const POST = async (req: NextRequest) => {
 
     const response = await imagekit.upload({
       file: `data:${file.type};base64,${base64String}`,
-      fileName: (file as any).name || "unknown",
+      fileName: file.name || "unknown",
     });
 
     return NextResponse.json(

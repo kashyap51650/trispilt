@@ -122,7 +122,7 @@ const SignupPage: React.FC = () => {
         setIsSubmitting(false);
       }
     },
-    [avatar, clearErrors, setError, router]
+    [clearErrors, setError, router]
   );
 
   // Memoized toggle function

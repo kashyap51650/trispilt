@@ -38,7 +38,7 @@ const EmailVerificationCard: React.FC<EmailVerificationCardProps> = ({
 
   React.useEffect(() => {
     setTimeRemaining(getTimeRemaining());
-  }, [lastSentTime]);
+  }, [lastSentTime, getTimeRemaining]);
 
   return (
     <div className="rounded-xl border bg-card/80 p-6 shadow-lg backdrop-blur-sm">
@@ -55,7 +55,7 @@ const EmailVerificationCard: React.FC<EmailVerificationCardProps> = ({
 
         {/* Description */}
         <p className="text-muted-foreground mb-6">
-          We've sent a verification link to{" "}
+          {"We've sent a verification link to "}
           <span className="font-medium text-foreground">{email}</span>
         </p>
 
@@ -88,7 +88,9 @@ const EmailVerificationCard: React.FC<EmailVerificationCardProps> = ({
 
         {/* Help text */}
         <p className="mt-4 text-xs text-muted-foreground">
-          Didn't receive the email? Check your spam folder or contact support.
+          {
+            "Didn't receive the email? Check your spam folder or contact support."
+          }
         </p>
       </div>
     </div>
