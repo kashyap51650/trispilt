@@ -1,8 +1,8 @@
 import ContributionItem from "@/components/ContributionItem";
 import PageHeader from "@/components/PageHeader";
+import PageWrapper from "@/components/PageWrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-import React from "react";
+import { ROUTES } from "@/constants";
 
 type Status = "paid" | "pending";
 
@@ -27,10 +27,10 @@ const contributors: Contributor[] = [
 const filterByStatus = (items: Contributor[], status?: Status) =>
   status ? items.filter((i) => i.status === status) : items;
 
-const page = () => {
+const ContributionPage = () => {
   return (
-    <div>
-      <PageHeader title="Contributions" />
+    <PageWrapper>
+      <PageHeader title="Contributions" backRoute={ROUTES.profile} />
 
       <Tabs defaultValue="all" className="w-full">
         <TabsList className="grid grid-cols-3 w-full">
@@ -168,8 +168,8 @@ const page = () => {
           </section>
         </TabsContent>
       </Tabs>
-    </div>
+    </PageWrapper>
   );
 };
 
-export default page;
+export default ContributionPage;
