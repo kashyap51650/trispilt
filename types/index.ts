@@ -12,3 +12,11 @@ export type LoginResponse = {
   user?: UserInfo;
   emailVerified?: boolean;
 };
+
+export type UpdateProfileData = {
+  id: string;
+  name: string;
+  email: string;
+  avatar: Blob;
+  mobile?: string;
+};

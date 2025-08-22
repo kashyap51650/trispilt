@@ -1,5 +1,3 @@
-import { login } from "@/actions/auth";
-
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 export const STRENGTH_COLORS = [
@@ -23,6 +21,7 @@ export const ROUTES = {
   login: "/login",
   signup: "/signup",
   verifyEmail: "/verify-email",
+  profile: "/profile",
 } as const;
 
 export const NO_PROFILE_IMAGE = "/images/no-profile.jpg";

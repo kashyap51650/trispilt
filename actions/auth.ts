@@ -167,43 +167,6 @@ export const logout = async () => {
   }
 };
 
-export const getCurrentUser = async (): Promise<UserInfo | null> => {
-  return new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      unsubscribe();
-
-      if (user) {
-        try {
-          // Get user data from Firestore
-          const userDocRef = doc(db, "users", user.uid);
-          const userDoc = await getDoc(userDocRef);
-
-          if (userDoc.exists()) {
-            resolve(userDoc.data() as UserInfo);
-          } else {
-            // Create basic user data if document doesn't exist
-            const userData: UserInfo = {
-              id: user.uid,
-              name: user.displayName || "User",
-              email: user.email || "",
-              avatar: user.photoURL || "/uiface-1.jpg",
-              mobile: "",
-            };
-
-            await createUser(userData);
-            resolve(userData);
-          }
-        } catch (error) {
-          console.error("Error getting current user:", error);
-          resolve(null);
-        }
-      } else {
-        resolve(null);
-      }
-    });
-  });
-};
-
 // Email verification functions
 export const sendVerificationEmail = async () => {
   try {
