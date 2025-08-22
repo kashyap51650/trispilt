@@ -5,11 +5,9 @@ import Loading from "@/components/Loading";
 import ProfileMenuItem from "@/components/ProfileMenuItem";
 import { NO_PROFILE_IMAGE } from "@/constants";
 import { useAuthUser } from "@/hooks/useAuthUser";
-import { auth } from "@/lib/firebase";
 import { CoinsIcon, OutdentIcon, Presentation, User2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React from "react";
 
 const ProfilePage = () => {
   const router = useRouter();

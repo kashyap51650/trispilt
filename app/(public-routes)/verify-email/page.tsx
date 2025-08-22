@@ -1,15 +1,15 @@
 "use client";
 
-import React, { Suspense } from "react";
-import { useEmailVerification } from "@/hooks/useEmailVerification";
 import EmailVerificationCard from "@/components/EmailVerificationCard";
 import ErrorComponent from "@/components/ErrorComponent";
+import Loading from "@/components/Loading";
 import { Button } from "@/components/ui/button";
+import { ROUTES } from "@/constants";
+import { useEmailVerification } from "@/hooks/useEmailVerification";
 import { CheckCircleIcon, ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ROUTES } from "@/constants";
-import Loading from "@/components/Loading";
+import React from "react";
 
 const VerifyEmailPage: React.FC = () => {
   const router = useRouter();

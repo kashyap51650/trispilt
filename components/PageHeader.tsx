@@ -1,4 +1,4 @@
-import { ArrowLeftCircleIcon, ChevronLeft } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import React from "react";
 
 interface PageHeaderProps {

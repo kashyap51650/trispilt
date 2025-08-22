@@ -116,7 +116,7 @@ export default function EditProfilePage() {
         setIsSubmitting(false);
       }
     },
-    [clearErrors, setError, router]
+    [clearErrors, setError, router, user]
   );
 
   if (loading) {
