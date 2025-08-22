@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import React from "react";
 
 interface ProfileMenuItemProps {
@@ -18,7 +18,7 @@ const ProfileMenuItem = ({
   return (
     <li
       className={cn(
-        "flex items-center justify-between py-3 cursor-pointer hover:bg-muted/10 transition",
+        "flex items-center justify-between py-3 px-4 rounded-xl cursor-pointer hover:bg-muted/10 transition hover:text-primary",
         className
       )}
       onClick={onClick}
@@ -27,7 +27,7 @@ const ProfileMenuItem = ({
         {icon}
         <span>{label}</span>
       </div>
-      <ArrowRight className="h-4 w-4 text-muted-foreground" />
+      <ChevronRight className="h-4 w-4" />
     </li>
   );
 };

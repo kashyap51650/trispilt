@@ -1,6 +1,6 @@
 "use client";
 
-import { getCurrentUser } from "@/actions/auth";
+import { useAuthUser } from "@/hooks/useAuthUser";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -8,13 +8,12 @@ import React, { useEffect, useState } from "react";
 const SplashPage: React.FC = () => {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
+  const user = useAuthUser();
 
   // Check authentication status and redirect accordingly
   useEffect(() => {
     const checkAuthAndRedirect = async () => {
       try {
-        const user = await getCurrentUser();
-
         if (user) {
           // User is authenticated, redirect to dashboard
           router.replace("/dashboard");

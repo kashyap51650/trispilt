@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { MailIcon, RefreshCwIcon } from "lucide-react";
 
@@ -17,13 +17,13 @@ const EmailVerificationCard: React.FC<EmailVerificationCardProps> = ({
   lastSentTime,
   children,
 }) => {
-  const getTimeRemaining = () => {
+  const getTimeRemaining = useCallback(() => {
     if (!lastSentTime) return 0;
     const now = new Date();
     const diff =
       60 - Math.floor((now.getTime() - lastSentTime.getTime()) / 1000);
     return Math.max(0, diff);
-  };
+  }, [lastSentTime]);
 
   const [timeRemaining, setTimeRemaining] = React.useState(getTimeRemaining());
 
