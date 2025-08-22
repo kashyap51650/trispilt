@@ -18,6 +18,7 @@ import { Input } from "@/components/ui/input";
 import { NO_PROFILE_IMAGE, ROUTES } from "@/constants";
 import { useAuthUser } from "@/hooks/useAuthUser";
 import { EditProfileFormData, editProfileSchema } from "@/schema/user";
+import PageWrapper from "@/components/PageWrapper";
 
 export default function EditProfilePage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -138,153 +139,147 @@ export default function EditProfilePage() {
   const hasChanges = isDirty || avatarFile;
 
   return (
-    <div className="">
+    <PageWrapper>
       <PageHeader title="Edit Profile" />
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        {/* Avatar Section */}
+        <AppCard>
+          <div className="flex items-start gap-6">
+            <div className="relative">
+              <AppAvatar
+                src={avatarPreview || user.avatar || NO_PROFILE_IMAGE}
+                width={100}
+                height={100}
+                fallback={user.name?.charAt(0) || "U"}
+              />
+            </div>
 
-      {/* Main Content */}
-      <div className="max-w-2xl mx-auto">
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-          {/* Avatar Section */}
-          <AppCard>
-            <div className="flex items-start gap-6">
-              <div className="relative">
-                <AppAvatar
-                  src={avatarPreview || user.avatar || NO_PROFILE_IMAGE}
-                  width={100}
-                  height={100}
-                  fallback={user.name?.charAt(0) || "U"}
-                />
+            <div className="flex-1 space-y-3">
+              <div>
+                <h3 className="font-medium text-sm">
+                  Change your profile picture
+                </h3>
+                <p className="text-xs text-muted-foreground">
+                  JPG or PNG, Max size 5MB.
+                </p>
               </div>
 
-              <div className="flex-1 space-y-3">
-                <div>
-                  <h3 className="font-medium text-sm">
-                    Change your profile picture
-                  </h3>
-                  <p className="text-xs text-muted-foreground">
-                    JPG or PNG, Max size 5MB.
-                  </p>
-                </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handleAvatarChange}
+                className="hidden"
+              />
 
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept="image/*"
-                  onChange={handleAvatarChange}
-                  className="hidden"
-                />
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+                className="flex items-center gap-2"
+              >
+                <Upload className="h-4 w-4" />
+                Upload new picture
+              </Button>
 
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex items-center gap-2"
-                >
-                  <Upload className="h-4 w-4" />
-                  Upload new picture
-                </Button>
-
-                {uploadError && (
-                  <p className="text-sm text-red-600">{uploadError}</p>
-                )}
-              </div>
+              {uploadError && (
+                <p className="text-sm text-red-600">{uploadError}</p>
+              )}
             </div>
-          </AppCard>
-
-          {/* Personal Information */}
-          <AppCard>
-            <div className="space-y-4">
-              {/* Name */}
-              <FormField error={errors.name?.message}>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Full Name
-                </label>
-                <div className="relative">
-                  <Input
-                    id="name"
-                    type="text"
-                    placeholder="Enter your full name"
-                    {...register("name")}
-                    className={
-                      errors.name ? "border-destructive pl-10" : "pl-10"
-                    }
-                  />
-                  <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                </div>
-              </FormField>
-
-              {/* Email */}
-              <FormField error={errors.email?.message}>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="Enter your email"
-                    {...register("email")}
-                    disabled
-                    className={errors.email ? "border-red-500 pl-10" : "pl-10"}
-                  />
-                  <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                </div>
-              </FormField>
-
-              {/* Mobile */}
-              <FormField error={errors.mobile?.message}>
-                <label
-                  htmlFor="mobile"
-                  className="block text-sm font-medium text-foreground mb-2"
-                >
-                  Phone Number
-                  <span className="text-muted-foreground ml-1">(Optional)</span>
-                </label>
-                <div className="relative">
-                  <Input
-                    id="mobile"
-                    type="tel"
-                    placeholder="Enter your phone number"
-                    {...register("mobile")}
-                    className={errors.mobile ? "border-red-500 pl-10" : "pl-10"}
-                  />
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                </div>
-              </FormField>
-            </div>
-          </AppCard>
-
-          {/* Root error */}
-          {errors.root && <ErrorComponent errorMessage={errors.root.message} />}
-
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-3">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.back()}
-              className="flex-1"
-              disabled={isSubmitting}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              className="flex-1 bg-primary hover:bg-primary/90"
-              disabled={!hasChanges || isSubmitting}
-            >
-              {isSubmitting ? "Saving..." : <>Update Profile</>}
-            </Button>
           </div>
-        </form>
-      </div>
-    </div>
+        </AppCard>
+
+        {/* Personal Information */}
+        <AppCard>
+          <div className="space-y-4">
+            {/* Name */}
+            <FormField error={errors.name?.message}>
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                Full Name
+              </label>
+              <div className="relative">
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Enter your full name"
+                  {...register("name")}
+                  className={errors.name ? "border-destructive pl-10" : "pl-10"}
+                />
+                <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              </div>
+            </FormField>
+
+            {/* Email */}
+            <FormField error={errors.email?.message}>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                Email Address
+              </label>
+              <div className="relative">
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  {...register("email")}
+                  disabled
+                  className={errors.email ? "border-red-500 pl-10" : "pl-10"}
+                />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              </div>
+            </FormField>
+
+            {/* Mobile */}
+            <FormField error={errors.mobile?.message}>
+              <label
+                htmlFor="mobile"
+                className="block text-sm font-medium text-foreground mb-2"
+              >
+                Phone Number
+                <span className="text-muted-foreground ml-1">(Optional)</span>
+              </label>
+              <div className="relative">
+                <Input
+                  id="mobile"
+                  type="tel"
+                  placeholder="Enter your phone number"
+                  {...register("mobile")}
+                  className={errors.mobile ? "border-red-500 pl-10" : "pl-10"}
+                />
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              </div>
+            </FormField>
+          </div>
+        </AppCard>
+
+        {/* Root error */}
+        {errors.root && <ErrorComponent errorMessage={errors.root.message} />}
+
+        {/* Action Buttons */}
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => router.back()}
+            className="flex-1"
+            disabled={isSubmitting}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            className="flex-1 bg-primary hover:bg-primary/90"
+            disabled={!hasChanges || isSubmitting}
+          >
+            {isSubmitting ? "Saving..." : <>Update Profile</>}
+          </Button>
+        </div>
+      </form>
+    </PageWrapper>
   );
 }

@@ -1,3 +1,4 @@
+import { ArrowLeftCircleIcon, ChevronLeft } from "lucide-react";
 import React from "react";
 
 interface PageHeaderProps {
@@ -7,11 +8,16 @@ interface PageHeaderProps {
 
 const PageHeader: React.FC<PageHeaderProps> = ({ title, description }) => {
   return (
-    <header className="mb-4">
-      <h1 className="text-xl font-bold">{title}</h1>
-      {description && (
-        <p className="text-sm text-muted-foreground">{description}</p>
-      )}
+    <header className="grid grid-cols-3 items-center gap-4 w-full">
+      <div className="bg-primary/10 rounded-full p-1 text-primary cursor-pointer hover:bg-primary/20 transition w-fit">
+        <ChevronLeft />
+      </div>
+      <div>
+        <h1>{title}</h1>
+        {description && (
+          <p className="text-sm text-muted-foreground">{description}</p>
+        )}
+      </div>
     </header>
   );
 };
