@@ -22,6 +22,31 @@ export const ROUTES = {
   signup: "/signup",
   verifyEmail: "/verify-email",
   profile: "/profile",
+  getStarted: "/get-started",
 } as const;
 
 export const NO_PROFILE_IMAGE = "/images/no-profile.jpg";
+
+export const CONTRIBUTION_MONTHS = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];
+
+export const CURRENT_YEAR = new Date().getFullYear();
+
+export const MONTHLY_CONTRIBUTION_AMOUNT = 2000; // Example fixed amount, can be made dynamic later
+
+export const FIREBASE_COLLECTIONS = {
+  users: "users",
+  contributions: "contributions",
+} as const;

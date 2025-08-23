@@ -20,3 +20,17 @@ export type UpdateProfileData = {
   avatar: Blob;
   mobile?: string;
 };
+
+export type Months =
+  | "JAN"
+  | "FEB"
+  | "MAR"
+  | "APR"
+  | "MAY"
+  | "JUN"
+  | "JUL"
+  | "AUG"
+  | "SEP"
+  | "OCT"
+  | "NOV"
+  | "DEC";
