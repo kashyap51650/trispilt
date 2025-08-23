@@ -13,6 +13,8 @@ import ErrorComponent from "../ErrorComponent";
 import FormField from "../FormField";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { getMonthNameFromDate } from "@/utils/helper";
+import { useToast } from "@/hooks/useToast";
 
 interface AddContributionFormProps {
   onSuccess?: () => void;
@@ -30,6 +32,8 @@ const AddContributionForm: React.FC<AddContributionFormProps> = ({
     type: "success" | "error" | null;
     message: string;
   }>({ type: null, message: "" });
+
+  const { showSuccess, showError } = useToast();
 
   const {
     register,
@@ -51,23 +55,25 @@ const AddContributionForm: React.FC<AddContributionFormProps> = ({
     async (data: ContributionFormData) => {
       setIsSubmitting(true);
       clearErrors("root");
-      setSubmitStatus({ type: null, message: "" });
+
+      const date = new Date(data.date);
 
       try {
         const contributionData = {
           amount: parseFloat(data.amount),
-          date: new Date(data.date),
-          month: new Date().toISOString().slice(0, 7), // YYYY-MM
+          date,
+          month: getMonthNameFromDate(date),
         };
 
         const response = await createContribution(contributionData);
 
         if (response.success) {
-          toast.success(response.message, {
-            duration: 2000,
-            style: { backgroundColor: "#22c55e", color: "#fff" },
-          });
+          showSuccess(response.message);
           reset();
+        }
+
+        if (!response.success) {
+          showError(response.message);
         }
       } catch (error) {
         const errorMessage =
