@@ -61,7 +61,7 @@ const AddContributionForm: React.FC<AddContributionFormProps> = ({
       try {
         const contributionData = {
           amount: parseFloat(data.amount),
-          date,
+          date: date.toDateString(),
           month: getMonthNameFromDate(date),
         };
 

@@ -2,6 +2,7 @@ import { CheckCircle } from "lucide-react";
 import AppAvatar from "./AppAvatar";
 import { cn } from "@/lib/utils";
 import React from "react";
+import { NO_PROFILE_IMAGE } from "@/constants";
 
 interface ContributionItemProps {
   name: string;
@@ -21,7 +22,7 @@ const ContributionItem = ({
   return (
     <div className={cn("flex items-center gap-4 justify-between", className)}>
       <div className="flex items-center gap-4">
-        <AppAvatar src={avatar} />
+        <AppAvatar src={avatar === "" ? NO_PROFILE_IMAGE : avatar} />
         <div>
           <p className="font-medium">{name}</p>
           {date && <p className="text-sm text-muted">Paid on {date}</p>}

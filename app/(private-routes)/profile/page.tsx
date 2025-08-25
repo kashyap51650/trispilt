@@ -34,7 +34,7 @@ const ProfilePage = () => {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-all duration-500" />
             <div className="relative transform group-hover:scale-105 transition-all duration-300">
               <AppAvatar
-                src={user.avatar ?? NO_PROFILE_IMAGE}
+                src={user.avatar !== "" ? user.avatar : NO_PROFILE_IMAGE}
                 width={100}
                 height={100}
               />
