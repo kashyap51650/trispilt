@@ -42,12 +42,16 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
     try {
       const result = await createTransaction({
         ...data,
-        type: TransactionType.INCOME,
+        type:
+          type === TransactionType.INCOME
+            ? TransactionType.INCOME
+            : TransactionType.EXPENSE,
       });
 
       if (result.success) {
-        showSuccess("Transaction added successfully.");
+        showSuccess(result.message);
         reset();
+        return;
       }
 
       if (!result.success) {
@@ -89,10 +93,13 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         />
         <CategoryDropdown
           control={control}
-          placeholder="Select Income Type"
+          placeholder={
+            type === TransactionType.INCOME ? "Income Type" : "Expense Type"
+          }
           dropdownList={[
             {
-              dropdownLabel: "Income Type",
+              dropdownLabel:
+                type === TransactionType.INCOME ? "Income" : "Expense",
               dropdownValue:
                 type === TransactionType.INCOME
                   ? INCOME_CATEGORIES
@@ -100,7 +107,9 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
             },
           ]}
           name="category"
-          label="Select Category"
+          label={
+            type === TransactionType.INCOME ? "Select Income" : "Select Expense"
+          }
           error={errors.category?.message}
         />
 

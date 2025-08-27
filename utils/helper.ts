@@ -57,3 +57,11 @@ export const getFullMonthAndYear = (month: string) => {
   };
   return `${monthNames[monthNum]} ${year}`;
 };
+
+export const formateAmount = (amount: number): string => {
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    maximumFractionDigits: 2,
+  }).format(amount);
+};

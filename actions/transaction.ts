@@ -2,6 +2,7 @@ import { FIREBASE_COLLECTIONS } from "@/constants";
 import { auth, db } from "@/lib/firebase";
 import { TransactionFormData } from "@/schema/amount";
 import { TransactionType } from "@/types";
+import { formateAmount } from "@/utils/helper";
 import { doc, setDoc } from "firebase/firestore";
 
 export const createTransaction = async (
@@ -25,7 +26,14 @@ export const createTransaction = async (
       by: userName,
     });
 
-    return { success: true, message: "Transaction added successfully." };
+    return {
+      success: true,
+      message: `${
+        transactionData.type === TransactionType.INCOME ? "Income" : "Expense"
+      } of ${formateAmount(
+        parseFloat(transactionData.amount)
+      )} added successfully.`,
+    };
   } catch (err) {
     console.error("Error adding transaction: ", err);
     return { success: false, message: "Failed to add transaction." };
