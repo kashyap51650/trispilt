@@ -18,6 +18,7 @@ export const STRENGTH_LABELS = [
 
 export const ROUTES = {
   dashboard: "/dashboard",
+  transaction: "/transactions",
   login: "/login",
   signup: "/signup",
   verifyEmail: "/verify-email",
@@ -49,4 +50,20 @@ export const MONTHLY_CONTRIBUTION_AMOUNT = 2000; // Example fixed amount, can be
 export const FIREBASE_COLLECTIONS = {
   users: "users",
   contributions: "contributions",
+  transactions: "transactions",
 } as const;
+
+export const INCOME_CATEGORIES = [
+  { key: "freelance", value: "Freelance" },
+  { key: "interest", value: "Interest" },
+  { key: "investments", value: "Investments Return" },
+  { key: "other", value: "Other" },
+];
+
+export const EXPENSE_CATEGORIES = [
+  { key: "subscription", value: "Subscription" },
+  { key: "company_work", value: "Company Work" },
+  { key: "entertainment", value: "Entertainment" },
+  { key: "party", value: "Party" },
+  { key: "other", value: "Other" },
+];

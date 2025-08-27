@@ -19,14 +19,14 @@ export interface QuickActionCardProps {
 const defaultActions: Action[] = [
   {
     label: "Add Income",
-    href: "/transactions?type=income",
+    href: "/transactions/add-income",
     icon: PlusCircle,
     subtitle: "Record incoming funds",
     iconBg: "bg-emerald-500/90",
   },
   {
     label: "Add Expense",
-    href: "/transactions?type=expense",
+    href: "/transactions/add-expense",
     icon: ArrowUpRight,
     subtitle: "Track spending quickly",
     iconBg: "bg-rose-500/90",

@@ -42,3 +42,9 @@ export type Months =
   | "OCT"
   | "NOV"
   | "DEC";
+
+export enum TransactionType {
+  INCOME = "income",
+  EXPENSE = "expense",
+  INVESTMENT = "investment",
+}
