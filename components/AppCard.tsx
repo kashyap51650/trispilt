@@ -10,7 +10,7 @@ interface AppCardProps {
 const AppCard: React.FC<AppCardProps> = ({ children, title, className }) => {
   return (
     <Card
-      className={`backdrop-blur-md bg-card/60 hover:bg-card/80 transition-all ${className}`}
+      className={`backdrop-blur-md bg-card/60 hover:bg-card/80 transition-all py-6 ${className}`}
     >
       {title && (
         <CardTitle className="text-md font-bold text-muted px-6">
