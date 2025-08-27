@@ -1,17 +1,18 @@
+import { CheckCircleIcon } from "lucide-react";
 import { toast } from "sonner";
 
 export const useToast = () => {
-  const showSuccess = (message: string, duration = 4000) => {
-    toast(message, {
-      duration,
-      style: { backgroundColor: "#00C851", color: "#fff" },
+  const showSuccess = (title: string, duration = 4000) => {
+    toast(title, {
+      duration: duration,
+      style: { backgroundColor: "#255F38", color: "#fff" },
     });
   };
 
   const showError = (message: string, duration = 4000) => {
     toast(message, {
       duration,
-      style: { backgroundColor: "#ff4d4f", color: "#fff" },
+      style: { backgroundColor: "#AE445A", color: "#fff" },
     });
   };
 
