@@ -6,6 +6,14 @@ export type UserInfo = {
   mobile?: string;
 };
 
+export type Contribution = {
+  id: string;
+  user: Exclude<UserInfo, "email" | "mobile">;
+  amount: number;
+  date: string;
+  month: string; // Format: "YYYY-MM"
+};
+
 export type LoginResponse = {
   success: boolean;
   message?: string;
@@ -20,3 +28,17 @@ export type UpdateProfileData = {
   avatar: Blob;
   mobile?: string;
 };
+
+export type Months =
+  | "JAN"
+  | "FEB"
+  | "MAR"
+  | "APR"
+  | "MAY"
+  | "JUN"
+  | "JUL"
+  | "AUG"
+  | "SEP"
+  | "OCT"
+  | "NOV"
+  | "DEC";

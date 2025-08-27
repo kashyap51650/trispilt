@@ -8,11 +8,11 @@ import React, { useEffect, useState } from "react";
 const SplashPage: React.FC = () => {
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
-  const user = useAuthUser();
+  const { user } = useAuthUser();
 
   // Check authentication status and redirect accordingly
   useEffect(() => {
-    const checkAuthAndRedirect = async () => {
+    const checkAuthAndRedirect = () => {
       try {
         if (user) {
           // User is authenticated, redirect to dashboard

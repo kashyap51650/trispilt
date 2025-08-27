@@ -33,7 +33,7 @@ const defaultActions: Action[] = [
   },
   {
     label: "Add Contri",
-    href: "/contributions",
+    href: "/contributions/add-contribution",
     icon: HandCoins,
     subtitle: "Pay your monthly share",
     iconBg: "bg-amber-500/90",
