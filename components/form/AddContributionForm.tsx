@@ -6,15 +6,14 @@ import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { createContribution } from "@/actions/contribution";
+import { useToast } from "@/hooks/useToast";
 import { cn } from "@/lib/utils";
 import { ContributionFormData, contributionSchema } from "@/schema/amount";
-import { toast } from "sonner";
+import { getMonthNameFromDate } from "@/utils/helper";
 import ErrorComponent from "../ErrorComponent";
 import FormField from "../FormField";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { getMonthNameFromDate } from "@/utils/helper";
-import { useToast } from "@/hooks/useToast";
 
 interface AddContributionFormProps {
   onSuccess?: () => void;
@@ -24,7 +23,6 @@ interface AddContributionFormProps {
 
 const AddContributionForm: React.FC<AddContributionFormProps> = ({
   onSuccess,
-  selectedMonth,
   className,
 }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);

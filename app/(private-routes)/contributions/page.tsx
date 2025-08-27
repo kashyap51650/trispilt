@@ -11,7 +11,7 @@ import { Contribution } from "@/types";
 import { getFullMonthAndYear } from "@/utils/helper";
 import { useCallback, useEffect, useState } from "react";
 
-export const ContributionListSkeleton: React.FC<{ count?: number }> = ({
+const ContributionListSkeleton: React.FC<{ count?: number }> = ({
   count = 3,
 }) => {
   return (

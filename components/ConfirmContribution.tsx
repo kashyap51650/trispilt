@@ -4,11 +4,10 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import { Button } from "./ui/button";
 import { CURRENT_YEAR, MONTHLY_CONTRIBUTION_AMOUNT } from "@/constants";
 import Image from "next/image";
+import { Button } from "./ui/button";
 
 type ConfirmContributionProps = {
   month: string;
