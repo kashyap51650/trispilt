@@ -1,46 +1,48 @@
+"use client";
 import { getTransactions } from "@/actions/transaction";
-import { useEffect, useState } from "react";
-import { useToast } from "./useToast";
 import { Transaction, TransactionType } from "@/types";
+import { TransactionsTab } from "@/types/enum";
+import { useQuery } from "@tanstack/react-query";
+import { useToast } from "./useToast";
 
 export const useTransaction = () => {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [loading, setLoading] = useState(false);
-
   const { showError } = useToast();
 
-  // filter transactions by type
-  const filterTransactionsByType = (type: TransactionType | "all") => {
-    if (type === "all") return transactions;
-    return transactions.filter((t) => t.type === type);
-  };
-
-  const fetchTransactions = async () => {
-    try {
-      setLoading(true);
+  const {
+    data: transactions = [],
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<Transaction[]>({
+    queryKey: ["transactions"],
+    queryFn: async () => {
       const result = await getTransactions();
-      if (result.success) {
-        setTransactions(result.data as []);
-      }
-
       if (!result.success) {
         showError(result.message);
+        throw new Error(result.message);
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
+      return result.data as Transaction[];
+    },
+  });
+
+  // filter transactions by type
+  const filterTransactionsByType = (type: TransactionsTab) => {
+    if (type === TransactionsTab.ALL) return transactions;
+    return transactions.filter(
+      (t) => t.type === (type as unknown as TransactionType)
+    );
   };
 
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
+  const filterTransactionById = (id: string) => {
+    return transactions.find((t) => t.id === id);
+  };
 
   return {
     transactions,
-    loading,
-    refetch: fetchTransactions,
+    isLoading,
+    isError,
+    refetch,
     filterTransactionsByType,
+    filterTransactionById,
   };
 };

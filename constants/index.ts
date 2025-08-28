@@ -67,3 +67,12 @@ export const EXPENSE_CATEGORIES = [
   { key: "party", value: "Party" },
   { key: "other", value: "Other" },
 ];
+
+export const PAGE_HEADING = {
+  dashboard: "Dashboard",
+  transactions: "Transactions",
+  profile: "Profile",
+  verifyEmail: "Verify Email",
+  login: "Login",
+  signup: "Sign Up",
+} as const;

@@ -4,60 +4,37 @@ import PageHeader from "@/components/PageHeader";
 import PageWrapper from "@/components/PageWrapper";
 import TransactionCard from "@/components/TransactionCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { PAGE_HEADING } from "@/constants";
 import { useTransaction } from "@/hooks/useTransaction";
-import { TransactionType } from "@/types";
+import { TransactionsTab } from "@/types/enum";
 import { NotebookPenIcon } from "lucide-react";
 import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 
-const tabs: (TransactionType | "all")[] = [
-  "all",
-  TransactionType.INCOME,
-  TransactionType.EXPENSE,
+const tabs = [
+  TransactionsTab.ALL,
+  TransactionsTab.INCOME,
+  TransactionsTab.EXPENSE,
 ];
 
 const page = () => {
-  const [activeTab, setActiveTab] = useState<TransactionType | "all">("all");
+  const [activeTab, setActiveTab] = useState<TransactionsTab>(
+    TransactionsTab.ALL
+  );
 
   const { filterTransactionsByType } = useTransaction();
 
   const filteredTransactions = filterTransactionsByType(activeTab);
 
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
-
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (touchStart - touchEnd > 75) {
-      // swipe left
-      if (currentIndex < tabs.length - 1) {
-        setActiveTab(tabs[currentIndex + 1]);
-      }
-    }
-    if (touchEnd - touchStart > 75) {
-      // swipe right
-      if (currentIndex > 0) {
-        setActiveTab(tabs[currentIndex - 1]);
-      }
-    }
-  };
-
-  const handleTabChange = (tab: TransactionType | "all") => {
+  const handleTabChange = (tab: TransactionsTab) => {
     setActiveTab(tab);
 
-    if (tab === "all") {
-      filterTransactionsByType("all");
-    } else if (tab === TransactionType.INCOME) {
-      filterTransactionsByType(TransactionType.INCOME);
+    if (tab === TransactionsTab.ALL) {
+      filterTransactionsByType(TransactionsTab.ALL);
+    } else if (tab === TransactionsTab.INCOME) {
+      filterTransactionsByType(TransactionsTab.INCOME);
     } else {
-      filterTransactionsByType(TransactionType.EXPENSE);
+      filterTransactionsByType(TransactionsTab.EXPENSE);
     }
   };
 
@@ -80,18 +57,18 @@ const page = () => {
 
   return (
     <PageWrapper>
-      <PageHeader title="Transactions" />
+      <PageHeader title={PAGE_HEADING.transactions} />
       <Tabs
         defaultValue="all"
         className="w-full mt-4 h-full"
-        onValueChange={(val) => handleTabChange(val as TransactionType | "all")}
+        onValueChange={(val) => handleTabChange(val as TransactionsTab)}
         value={activeTab}
         {...handlers}
       >
         <TabsList className="grid grid-cols-3 w-full">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value={TransactionType.INCOME}>Income</TabsTrigger>
-          <TabsTrigger value={TransactionType.EXPENSE}>Expense</TabsTrigger>
+          <TabsTrigger value={TransactionsTab.ALL}>All</TabsTrigger>
+          <TabsTrigger value={TransactionsTab.INCOME}>Income</TabsTrigger>
+          <TabsTrigger value={TransactionsTab.EXPENSE}>Expense</TabsTrigger>
         </TabsList>
         <TabsContent value={activeTab} className="mt-4 space-y-2 h-full">
           {filteredTransactions.length === 0 && (
