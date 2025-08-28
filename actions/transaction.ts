@@ -1,10 +1,16 @@
 import { FIREBASE_COLLECTIONS } from "@/constants";
 import { auth, db } from "@/lib/firebase";
-import { TransactionFormData } from "@/schema/amount";
 import { Transaction, TransactionInput, TransactionType } from "@/types";
 import { formateAmount } from "@/utils/helper";
 import { FirebaseError } from "firebase/app";
-import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+} from "firebase/firestore";
 
 export const getTransactions = async () => {
   try {
@@ -149,10 +155,7 @@ export const deleteTransaction = async (id: string) => {
       };
     }
 
-    await setDoc(docRef, {
-      ...docSnap.data(),
-      isDeleted: true,
-    });
+    await deleteDoc(docRef);
 
     return {
       success: true,

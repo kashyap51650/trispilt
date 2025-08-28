@@ -7,13 +7,17 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { PAGE_HEADING, ROUTES } from "@/constants";
+import { useDeleteTransaction } from "@/hooks/useDeleteTransaction";
 import { useTransactionDetails } from "@/hooks/useTransactionDetails";
+import { useConfirmationDialog } from "@/provider/ConfirmationDialogProvider";
 import { Edit3, Receipt, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 function TransactionDetailsPage({ params }: { params: { id: string } }) {
   const transactionId = params.id;
   const { isLoading, data: transaction } = useTransactionDetails(transactionId);
+
+  const { handleDelete } = useDeleteTransaction(transactionId);
 
   const router = useRouter();
 
@@ -135,6 +139,7 @@ function TransactionDetailsPage({ params }: { params: { id: string } }) {
               <Button
                 variant="outline"
                 className="flex-1 border-destructive/30 hover:bg-destructive/10 hover:border-destructive/50 text-destructive hover:text-destructive transition-all duration-200"
+                onClick={handleDelete}
               >
                 <Trash2 className="w-4 h-4 mr-2" />
                 Delete Transaction

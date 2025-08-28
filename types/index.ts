@@ -68,3 +68,9 @@ export type TransactionInput = {
   type: TransactionType;
   id?: string; // Optional, only for editing existing transactions
 };
+
+export type ServiceResult<T = null> = {
+  success: boolean;
+  message: string;
+  data?: T;
+};

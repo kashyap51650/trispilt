@@ -1,10 +1,9 @@
 "use client";
 
+import { createTransaction, editTransaction } from "@/actions/transaction";
+import { TransactionInput } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useToast } from "./useToast";
-import { createTransaction, editTransaction } from "@/actions/transaction";
-import { TransactionFormData } from "@/schema/amount";
-import { TransactionInput } from "@/types";
 
 type MutationType = "add" | "edit";
 
