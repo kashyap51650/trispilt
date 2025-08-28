@@ -5,6 +5,7 @@ import Loading from "@/components/Loading";
 import ProfileMenuItem from "@/components/ProfileMenuItem";
 import { NO_PROFILE_IMAGE } from "@/constants";
 import { useAuthUser } from "@/hooks/useAuthUser";
+import { useLogout } from "@/hooks/useLogOut";
 import { CoinsIcon, OutdentIcon, Presentation, User2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ const ProfilePage = () => {
   const router = useRouter();
 
   const { user, loading } = useAuthUser();
+  const { handleLogOut } = useLogout();
 
   console.log("User data:", user);
 
@@ -115,7 +117,7 @@ const ProfilePage = () => {
         <ProfileMenuItem
           icon={<OutdentIcon className="h-5 w-5" />}
           label="Logout"
-          onClick={() => router.push("/login")}
+          onClick={handleLogOut}
         />
       </ul>
       {/* </AppCard> */}
