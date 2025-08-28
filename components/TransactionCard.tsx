@@ -1,13 +1,12 @@
 import { cn } from "@/lib/utils";
+import { TransactionType } from "@/types";
 
 interface TransactionCardProps {
   title: string;
   description?: string;
-  type: "income" | "expense";
+  type: TransactionType;
   amount: number;
   tag?: string;
-  date: string;
-  by: string;
   byAvatar?: string;
   onEdit?: () => void;
   onDelete?: () => void;
@@ -19,8 +18,6 @@ const TransactionCard = ({
   type,
   amount,
   tag,
-  date,
-  by,
   className,
 }: TransactionCardProps) => {
   const isIncome = type === "income";
@@ -37,26 +34,26 @@ const TransactionCard = ({
       {/* Left Section */}
       <div className="col-span-3 flex items-start gap-4">
         <div>
-          <h3 className="font-semibold text-md">{title}</h3>
+          <h3 className="font-semibold text-sm">{title}</h3>
           <div className="mt-2 flex items-center gap-2 text-xs text-muted-foreground">
             {tag && (
               <span className="rounded-md bg-primary/20 px-2 py-0.5 text-primary text-xs">
                 {tag}
               </span>
             )}
-            <span>{date}</span>
+            {/* <span>{date}</span>
             <span className="flex items-center gap-1">
               <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary text-background text-xs">
                 {by.charAt(0)}
               </span>
               {by}
-            </span>
+            </span> */}
           </div>
         </div>
       </div>
 
       {/* Right Section */}
-      <div className="col-span-2 flex items-start justify-end gap-3">
+      <div className="col-span-2 flex items-center justify-end gap-3">
         <span
           className={cn(
             "font-bold text-sm",

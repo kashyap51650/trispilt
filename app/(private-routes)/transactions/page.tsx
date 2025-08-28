@@ -1,96 +1,118 @@
+"use client";
+
 import PageHeader from "@/components/PageHeader";
+import PageWrapper from "@/components/PageWrapper";
 import TransactionCard from "@/components/TransactionCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useTransaction } from "@/hooks/useTransaction";
+import { TransactionType } from "@/types";
+import { NotebookPenIcon } from "lucide-react";
+import { useState } from "react";
+import { useSwipeable } from "react-swipeable";
 
-import React from "react";
+const tabs: (TransactionType | "all")[] = [
+  "all",
+  TransactionType.INCOME,
+  TransactionType.EXPENSE,
+];
 
 const page = () => {
+  const [activeTab, setActiveTab] = useState<TransactionType | "all">("all");
+
+  const { filterTransactionsByType } = useTransaction();
+
+  const filteredTransactions = filterTransactionsByType(activeTab);
+
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStart - touchEnd > 75) {
+      // swipe left
+      if (currentIndex < tabs.length - 1) {
+        setActiveTab(tabs[currentIndex + 1]);
+      }
+    }
+    if (touchEnd - touchStart > 75) {
+      // swipe right
+      if (currentIndex > 0) {
+        setActiveTab(tabs[currentIndex - 1]);
+      }
+    }
+  };
+
+  const handleTabChange = (tab: TransactionType | "all") => {
+    setActiveTab(tab);
+
+    if (tab === "all") {
+      filterTransactionsByType("all");
+    } else if (tab === TransactionType.INCOME) {
+      filterTransactionsByType(TransactionType.INCOME);
+    } else {
+      filterTransactionsByType(TransactionType.EXPENSE);
+    }
+  };
+
+  const currentIndex = tabs.indexOf(activeTab);
+
+  const handlers = useSwipeable({
+    onSwipedLeft: () => {
+      if (currentIndex < tabs.length - 1) {
+        setActiveTab(tabs[currentIndex + 1]);
+      }
+    },
+    onSwipedRight: () => {
+      if (currentIndex > 0) {
+        setActiveTab(tabs[currentIndex - 1]);
+      }
+    },
+    preventScrollOnSwipe: true,
+    trackTouch: true,
+  });
+
   return (
-    <div>
-      <PageHeader
-        title="Transaction"
-        description="Track all your income/expense here"
-      />
-      <Tabs defaultValue="all" className="w-full mt-4">
+    <PageWrapper>
+      <PageHeader title="Transactions" />
+      <Tabs
+        defaultValue="all"
+        className="w-full mt-4 h-full"
+        onValueChange={(val) => handleTabChange(val as TransactionType | "all")}
+        value={activeTab}
+        {...handlers}
+      >
         <TabsList className="grid grid-cols-3 w-full">
           <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="category">Income</TabsTrigger>
-          <TabsTrigger value="person">Expense</TabsTrigger>
+          <TabsTrigger value={TransactionType.INCOME}>Income</TabsTrigger>
+          <TabsTrigger value={TransactionType.EXPENSE}>Expense</TabsTrigger>
         </TabsList>
-        <TabsContent value="all" className="mt-4 space-y-2">
-          <div className="space-y-3">
-            <TransactionCard
-              title="Software Development"
-              description="Website development project"
-              type="income"
-              amount={8000}
-              tag="Freelance"
-              date="13/12/2024"
-              by="Yash"
-            />
+        <TabsContent value={activeTab} className="mt-4 space-y-2 h-full">
+          {filteredTransactions.length === 0 && (
+            <p className="text-muted text-lg my-6 flex items-center justify-center">
+              <NotebookPenIcon className="inline mr-2" />
+              No transactions found.
+            </p>
+          )}
 
+          {filteredTransactions.map((tx) => (
             <TransactionCard
-              title="Server Hosting"
-              description="Monthly AWS bill"
-              type="expense"
-              amount={2500}
-              tag="Infrastructure"
-              date="10/12/2024"
-              by="Chirag"
+              key={tx.title}
+              title={tx.title}
+              type={tx.type}
+              amount={tx.amount}
+              tag={tx.category}
             />
-            <TransactionCard
-              title="Client Payment"
-              description="Payment received from Project Alpha"
-              type="income"
-              amount={15000}
-              tag="Client"
-              date="15/12/2024"
-              by="Mehul"
-            />
-
-            <TransactionCard
-              title="Software Subscription"
-              description="Figma team plan monthly"
-              type="expense"
-              amount={1200}
-              tag="Tools"
-              date="18/12/2024"
-              by="Kashyap"
-            />
-
-            <TransactionCard
-              title="Team Lunch"
-              description="Monthly team bonding lunch"
-              type="expense"
-              amount={3000}
-              tag="Team"
-              date="20/12/2024"
-              by="Ravi"
-            />
-
-            <TransactionCard
-              title="Consulting Fee"
-              description="Paid to external consultant for audit"
-              type="expense"
-              amount={5000}
-              tag="Consulting"
-              date="22/12/2024"
-              by="Amit"
-            />
-
-            <TransactionCard
-              title="SaaS Income"
-              description="December subscription revenue"
-              type="income"
-              amount={25000}
-              tag="SaaS"
-              date="25/12/2024"
-              by="System"
-            />
-          </div>
+          ))}
         </TabsContent>
       </Tabs>
-    </div>
+    </PageWrapper>
   );
 };
 
