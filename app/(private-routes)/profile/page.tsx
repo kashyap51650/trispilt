@@ -16,8 +16,6 @@ const ProfilePage = () => {
   const { user, loading } = useAuthUser();
   const { handleLogOut } = useLogout();
 
-  console.log("User data:", user);
-
   if (loading) return <Loading />;
   if (!user) return <p>No user signed in</p>;
 

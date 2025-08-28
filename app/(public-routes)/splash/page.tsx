@@ -1,42 +1,9 @@
 "use client";
 
-import { useAuthUser } from "@/hooks/useAuthUser";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 const SplashPage: React.FC = () => {
-  const router = useRouter();
-  const [isChecking, setIsChecking] = useState(true);
-  const { user } = useAuthUser();
-
-  // Check authentication status and redirect accordingly
-  useEffect(() => {
-    const checkAuthAndRedirect = () => {
-      try {
-        if (user) {
-          // User is authenticated, redirect to dashboard
-          router.replace("/dashboard");
-        } else {
-          // User is not authenticated, redirect to get-started
-          setTimeout(() => {
-            router.replace("/get-started");
-          }, 1500);
-        }
-      } catch (error) {
-        console.error("Error checking auth state:", error);
-        // On error, redirect to get-started
-        setTimeout(() => {
-          router.replace("/get-started");
-        }, 1500);
-      } finally {
-        setIsChecking(false);
-      }
-    };
-
-    checkAuthAndRedirect();
-  }, [router]);
-
   return (
     <div className="relative overflow-hidden">
       {/* Background gradient and glow accents */}
@@ -48,33 +15,22 @@ const SplashPage: React.FC = () => {
 
       <div className="flex h-screen flex-col items-center justify-center gap-6 py-10 text-center">
         {/* App Logo and Branding */}
-        <div className="relative">
+        <div className="relative flex-1 flex items-center">
           <Image
-            src="/3dicons-rupee.png"
+            src="/icons/icon-512x512.png"
             alt="App Logo"
             width={120}
             height={120}
-            className="drop-shadow-xl animate-pulse"
+            className="drop-shadow-xl"
             priority
           />
         </div>
 
         {/* App Name */}
-        <div>
-          <h1 className="bg-gradient-to-r from-foreground via-primary to-foreground bg-clip-text text-4xl font-extrabold tracking-tight text-transparent sm:text-5xl">
+        <div className="items-end">
+          <h1 className="text-primary text-2xl font-extrabold tracking-tight ">
             TriSpilt
           </h1>
-          <p className="mt-2 text-base text-muted-foreground">
-            Group Finance Management
-          </p>
-        </div>
-
-        {/* Loading indicator */}
-        <div className="flex flex-col items-center gap-3">
-          <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary/40 border-t-primary" />
-          <p className="text-sm text-muted-foreground">
-            {isChecking ? "Checking authentication..." : "Redirecting..."}
-          </p>
         </div>
       </div>
     </div>
