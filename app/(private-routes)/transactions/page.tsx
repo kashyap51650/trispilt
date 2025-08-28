@@ -83,7 +83,7 @@ const page = () => {
 
           {filteredTransactions.map((tx) => (
             <TransactionCard
-              key={tx.title}
+              id={tx.id}
               title={tx.title}
               type={tx.type}
               amount={tx.amount}

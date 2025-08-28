@@ -71,6 +71,7 @@ export const EXPENSE_CATEGORIES = [
 export const PAGE_HEADING = {
   dashboard: "Dashboard",
   transactions: "Transactions",
+  transactionDetails: "Transaction Details",
   profile: "Profile",
   verifyEmail: "Verify Email",
   login: "Login",

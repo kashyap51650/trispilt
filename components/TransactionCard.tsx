@@ -1,7 +1,11 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { TransactionType } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface TransactionCardProps {
+  id: string;
   title: string;
   description?: string;
   type: TransactionType;
@@ -14,6 +18,7 @@ interface TransactionCardProps {
 }
 
 const TransactionCard = ({
+  id,
   title,
   type,
   amount,
@@ -21,15 +26,17 @@ const TransactionCard = ({
   className,
 }: TransactionCardProps) => {
   const isIncome = type === "income";
-
+  const router = useRouter();
   return (
     <div
+      key={id}
       className={cn(
         "grid grid-cols-5 gap-4 rounded-2xl border p-5",
         "backdrop-blur-md bg-card/60 hover:bg-card/80 transition-all",
         "shadow-md hover:shadow-lg",
         className
       )}
+      onClick={() => router.push(`/transactions/${id}`)}
     >
       {/* Left Section */}
       <div className="col-span-3 flex items-start gap-4">

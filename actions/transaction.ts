@@ -4,7 +4,7 @@ import { TransactionFormData } from "@/schema/amount";
 import { Transaction, TransactionType } from "@/types";
 import { formateAmount } from "@/utils/helper";
 import { FirebaseError } from "firebase/app";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc } from "firebase/firestore";
 
 export const getTransactions = async () => {
   try {
@@ -35,6 +35,35 @@ export const getTransactions = async () => {
           ? `Firebase Error - ${err.message}`
           : "Unknown error",
       data: [],
+    };
+  }
+};
+
+export const getSingleTransaction = async (id: string) => {
+  try {
+    const docRef = doc(db, FIREBASE_COLLECTIONS.transactions, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return {
+        success: true,
+        message: "Transaction fetched successfully.",
+        data: docSnap.data() as Transaction,
+      };
+    } else {
+      return {
+        success: false,
+        message: "Transaction not found.",
+        data: null,
+      };
+    }
+  } catch (err) {
+    return {
+      success: false,
+      message:
+        err instanceof FirebaseError
+          ? `Firebase Error - ${err.message}`
+          : "Unknown error",
+      data: null,
     };
   }
 };
