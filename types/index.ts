@@ -48,3 +48,14 @@ export enum TransactionType {
   EXPENSE = "expense",
   INVESTMENT = "investment",
 }
+
+export type Transaction = {
+  id: string;
+  userId: string;
+  title: string;
+  amount: number;
+  date: string;
+  category: string;
+  type: TransactionType;
+  by: string; // Name of the person who added the transaction
+};

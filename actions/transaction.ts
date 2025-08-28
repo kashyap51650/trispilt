@@ -1,9 +1,43 @@
 import { FIREBASE_COLLECTIONS } from "@/constants";
 import { auth, db } from "@/lib/firebase";
 import { TransactionFormData } from "@/schema/amount";
-import { TransactionType } from "@/types";
+import { Transaction, TransactionType } from "@/types";
 import { formateAmount } from "@/utils/helper";
-import { doc, setDoc } from "firebase/firestore";
+import { FirebaseError } from "firebase/app";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+
+export const getTransactions = async () => {
+  try {
+    const transactionRef = collection(db, FIREBASE_COLLECTIONS.transactions);
+
+    const response = await getDocs(transactionRef);
+
+    const data = response.docs.map((doc) => doc.data()) as Transaction[];
+
+    if (data.length > 0) {
+      return {
+        success: true,
+        message: "Transactions fetched successfully.",
+        data: data,
+      };
+    } else {
+      return {
+        success: false,
+        message: "No transactions found.",
+        data: [],
+      };
+    }
+  } catch (err) {
+    return {
+      success: false,
+      message:
+        err instanceof FirebaseError
+          ? `Firebase Error - ${err.message}`
+          : "Unknown error",
+      data: [],
+    };
+  }
+};
 
 export const createTransaction = async (
   transactionData: TransactionFormData & { type: TransactionType }
