@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import FormField from "./FormField";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import { UseFormRegisterReturn } from "react-hook-form";
 
 interface FormInputProps {
   id: string;
@@ -13,7 +14,7 @@ interface FormInputProps {
   helperText?: string;
   error?: string;
   disabled?: boolean;
-  register?: any; // from react-hook-form's register
+  register?: UseFormRegisterReturn; // Replace 'any' with the actual type from react-hook-form if available, e.g.
   className?: string;
 }
 

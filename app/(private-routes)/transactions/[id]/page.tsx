@@ -9,12 +9,12 @@ import { Card } from "@/components/ui/card";
 import { PAGE_HEADING, ROUTES } from "@/constants";
 import { useDeleteTransaction } from "@/hooks/useDeleteTransaction";
 import { useTransactionDetails } from "@/hooks/useTransactionDetails";
-import { useConfirmationDialog } from "@/provider/ConfirmationDialogProvider";
 import { Edit3, Receipt, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
-function TransactionDetailsPage({ params }: { params: { id: string } }) {
-  const transactionId = params.id;
+function TransactionDetailsPage() {
+  const { id } = useParams();
+  const transactionId = id as string;
   const { isLoading, data: transaction } = useTransactionDetails(transactionId);
 
   const { handleDelete } = useDeleteTransaction(transactionId);
@@ -35,8 +35,9 @@ function TransactionDetailsPage({ params }: { params: { id: string } }) {
               {"Transaction Not Found"}
             </h3>
             <p className="text-muted-foreground">
-              The transaction you're looking for doesn't exist or you don't have
-              permission to view it.
+              {
+                "The transaction you're looking for doesn't exist or you don't have permission to view it."
+              }
             </p>
           </Card>
         </div>

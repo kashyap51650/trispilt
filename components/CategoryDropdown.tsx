@@ -9,29 +9,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Controller, Control } from "react-hook-form";
+import { Controller, Control, FieldValues, Path } from "react-hook-form";
 import FormField from "./FormField";
 import { Label } from "./ui/label";
 
-interface CategoryDropdownProps {
-  control: Control<any>;
+// ✅ Types
+interface DropdownValue {
+  key: string;
+  value: string;
+}
+
+interface DropdownGroup {
+  dropdownLabel: string;
+  dropdownValue: DropdownValue[];
+}
+
+interface CategoryDropdownProps<T extends FieldValues> {
+  control: Control<T>;
   placeholder?: string;
-  dropdownList: [
-    { dropdownLabel: string; dropdownValue: { key: string; value: string }[] }
-  ];
-  name: string;
+  dropdownList: DropdownGroup[];
+  name: Path<T>; // ✅ ensures name matches form fields
   label?: string;
   error?: string;
 }
 
-export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
+export const CategoryDropdown = <T extends FieldValues>({
   control,
   placeholder = "Select Category",
   dropdownList,
   name,
   label,
   error,
-}) => {
+}: CategoryDropdownProps<T>) => {
   return (
     <FormField error={error}>
       {label && (
@@ -49,20 +58,16 @@ export const CategoryDropdown: React.FC<CategoryDropdownProps> = ({
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>
             <SelectContent>
-              <SelectGroup>
-                {dropdownList.map((dropdownItem) => {
-                  return (
-                    <div key={dropdownItem.dropdownLabel}>
-                      <SelectLabel>{dropdownItem.dropdownLabel}</SelectLabel>
-                      {dropdownItem.dropdownValue.map((item) => (
-                        <SelectItem key={item.key} value={item.value}>
-                          {item.value}
-                        </SelectItem>
-                      ))}
-                    </div>
-                  );
-                })}
-              </SelectGroup>
+              {dropdownList.map((dropdownItem) => (
+                <SelectGroup key={dropdownItem.dropdownLabel}>
+                  <SelectLabel>{dropdownItem.dropdownLabel}</SelectLabel>
+                  {dropdownItem.dropdownValue.map((item) => (
+                    <SelectItem key={item.key} value={item.value}>
+                      {item.value}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              ))}
             </SelectContent>
           </Select>
         )}

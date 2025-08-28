@@ -18,7 +18,7 @@ const tabs = [
   TransactionsTab.EXPENSE,
 ];
 
-const page = () => {
+const TransactionPage = () => {
   const [activeTab, setActiveTab] = useState<TransactionsTab>(
     TransactionsTab.ALL
   );
@@ -83,6 +83,7 @@ const page = () => {
 
           {filteredTransactions.map((tx) => (
             <TransactionCard
+              key={tx.id}
               id={tx.id}
               title={tx.title}
               type={tx.type}
@@ -96,4 +97,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TransactionPage;
