@@ -59,3 +59,12 @@ export type Transaction = {
   type: TransactionType;
   by: string; // Name of the person who added the transaction
 };
+
+export type TransactionInput = {
+  title: string;
+  amount: string; // Keeping as string to match form input, will convert to number when saving
+  date: string; // ISO string format
+  category: string;
+  type: TransactionType;
+  id?: string; // Optional, only for editing existing transactions
+};

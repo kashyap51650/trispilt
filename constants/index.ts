@@ -72,6 +72,7 @@ export const PAGE_HEADING = {
   dashboard: "Dashboard",
   transactions: "Transactions",
   transactionDetails: "Transaction Details",
+  EditTransaction: "Edit Transaction",
   profile: "Profile",
   verifyEmail: "Verify Email",
   login: "Login",

@@ -9,10 +9,13 @@ import { Card } from "@/components/ui/card";
 import { PAGE_HEADING, ROUTES } from "@/constants";
 import { useTransactionDetails } from "@/hooks/useTransactionDetails";
 import { Edit3, Receipt, Trash2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function TransactionDetailsPage({ params }: { params: { id: string } }) {
   const transactionId = params.id;
   const { isLoading, data: transaction } = useTransactionDetails(transactionId);
+
+  const router = useRouter();
 
   if (!isLoading && !transaction) {
     return (
@@ -122,6 +125,9 @@ function TransactionDetailsPage({ params }: { params: { id: string } }) {
               <Button
                 variant="outline"
                 className="flex-1 border-primary/30 hover:bg-primary/10 hover:border-primary/50 transition-all duration-200"
+                onClick={() =>
+                  router.push(`${ROUTES.transaction}/${transactionId}/edit`)
+                }
               >
                 <Edit3 className="w-4 h-4 mr-2" />
                 Edit Transaction

@@ -1,7 +1,6 @@
 "use client";
-import { createTransaction } from "@/actions/transaction";
 import { EXPENSE_CATEGORIES, INCOME_CATEGORIES } from "@/constants";
-import { useToast } from "@/hooks/useToast";
+import { useTransactionMutation } from "@/hooks/useTransactionMutation";
 import { TransactionFormData, transactionSchema } from "@/schema/amount";
 import { TransactionType } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -13,13 +12,19 @@ import FormInput from "../FormInput";
 import { Button } from "../ui/button";
 
 type TransactionFormProps = {
-  type?: TransactionType.EXPENSE | TransactionType.INCOME;
+  type?: TransactionType;
+  transactionId?: string;
+  initialData?: TransactionFormData;
 };
 
 const TransactionForm: React.FC<TransactionFormProps> = ({
+  transactionId,
   type = TransactionType.INCOME,
+  initialData,
 }) => {
-  const { showSuccess, showError } = useToast();
+  const isEdit = Boolean(transactionId);
+
+  const { mutate, isPending } = useTransactionMutation(isEdit ? "edit" : "add");
 
   const {
     register,
@@ -31,35 +36,39 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
     resolver: zodResolver(transactionSchema),
     mode: "onChange",
     defaultValues: {
-      title: "",
-      amount: "",
-      date: new Date().toISOString().split("T")[0], // Today's date
-      category: "",
+      title: isEdit ? initialData?.title : "",
+      amount: isEdit ? initialData?.amount : "",
+      date: isEdit
+        ? new Date(initialData?.date || "").toISOString().split("T")[0]
+        : new Date().toISOString().split("T")[0], // Today's date
+      category: isEdit ? initialData?.category : "",
     },
   });
 
-  const onSubmit = async (data: TransactionFormData) => {
-    try {
-      const result = await createTransaction({
-        ...data,
-        type:
-          type === TransactionType.INCOME
-            ? TransactionType.INCOME
-            : TransactionType.EXPENSE,
-      });
-
-      if (result.success) {
-        showSuccess(result.message);
-        reset();
-        return;
-      }
-
-      if (!result.success) {
-        showError(result.message || "Failed to add transaction.");
-      }
-    } catch (err) {
-      console.error("Submission error: ", err);
+  const getButtonLabel = () => {
+    if (isEdit) {
+      return `Update ${type === TransactionType.INCOME ? "Income" : "Expense"}`;
     }
+    return `Add ${type === TransactionType.INCOME ? "Income" : "Expense"}`;
+  };
+
+  const onSubmit = async (data: TransactionFormData) => {
+    mutate(
+      {
+        ...data,
+        type,
+        id: isEdit ? transactionId : undefined,
+      },
+      {
+        onSuccess: (data) => {
+          if (data.success) {
+            if (!isEdit) {
+              reset();
+            }
+          }
+        },
+      }
+    );
   };
   return (
     <AppCard>
@@ -116,9 +125,9 @@ const TransactionForm: React.FC<TransactionFormProps> = ({
         <Button
           type="submit"
           className="w-full bg-primary hover:bg-primary/90 transition-all duration-200 hover:scale-[1.02] disabled:opacity-50"
-          disabled={!isDirty}
+          disabled={!isDirty || isPending}
         >
-          Add {type === TransactionType.INCOME ? "Income" : "Expense"}
+          {isPending ? "Processing..." : getButtonLabel()}
         </Button>
       </form>
     </AppCard>
