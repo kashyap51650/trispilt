@@ -2,6 +2,7 @@
 
 import PageHeader from "@/components/PageHeader";
 import PageWrapper from "@/components/PageWrapper";
+import { TransactionListSkeleton } from "@/components/skeleton/TransactionListSkeleton";
 import TransactionCard from "@/components/TransactionCard";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { PAGE_HEADING } from "@/constants";
@@ -22,7 +23,7 @@ const page = () => {
     TransactionsTab.ALL
   );
 
-  const { filterTransactionsByType } = useTransaction();
+  const { filterTransactionsByType, isLoading } = useTransaction();
 
   const filteredTransactions = filterTransactionsByType(activeTab);
 
@@ -71,7 +72,9 @@ const page = () => {
           <TabsTrigger value={TransactionsTab.EXPENSE}>Expense</TabsTrigger>
         </TabsList>
         <TabsContent value={activeTab} className="mt-4 space-y-2 h-full">
-          {filteredTransactions.length === 0 && (
+          {isLoading && <TransactionListSkeleton />}
+
+          {!isLoading && filteredTransactions.length === 0 && (
             <p className="text-muted text-lg my-6 flex items-center justify-center">
               <NotebookPenIcon className="inline mr-2" />
               No transactions found.
